@@ -1,1 +1,18 @@
 var express = require("express")
+var app = express();
+
+
+
+app.get('/', function (req, res) {
+    var ip = req.headers['x-forwarded-for'];
+    var lang = (req.headers['accept-language'].split(","))[0];
+    var str = req.headers['user-agent'];
+    var ini = str.indexOf("(")
+    var end = str.indexOf(")");
+    var soft = str.slice(ini + 1, end)
+    res.send(JSON.stringify({"ipaddress" : ip, "languague" : lang, "software" : soft}));
+});
+
+app.listen(8080, function () {
+  console.log('Example app listening on port 8080!');
+});
